@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+		xmlns:soap12bind="http://schemas.xmlsoap.org/wsdl/soap12/"
+		xmlns:soapbind="http://schemas.xmlsoap.org/wsdl/soap/"
+		xmlns:tns="http://server.ws.gdi.ru/"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns:xsd1="http://server.ws.gdi.ru/"
+		name="WSRTSDServer"
+		targetNamespace="http://server.ws.gdi.ru/">
+	<types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+				xmlns:xs1="http://server.ws.gdi.ru/"
+				targetNamespace="http://server.ws.gdi.ru/"
+				attributeFormDefault="unqualified"
+				elementFormDefault="qualified">
+			<xs:complexType name="movement">
+				<xs:sequence>
+					<xs:element name="number"
+							type="xs:string"/>
+					<xs:element name="date"
+							type="xs:dateTime"/>
+					<xs:element name="qty"
+							type="xs:int"/>
+					<xs:element name="acceptedQty"
+							type="xs:int"/>
+					<xs:element name="movementItems"
+							type="tns:movementItem"
+							nillable="true"
+							minOccurs="0"
+							maxOccurs="unbounded"/>
+					<xs:element name="stockId"
+							type="xs:string"/>
+					<xs:element name="stockName"
+							type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="movementItem">
+				<xs:sequence>
+					<xs:element name="line"
+							type="xs:int"/>
+					<xs:element name="itemId"
+							type="xs:string"/>
+					<xs:element name="itemName"
+							type="xs:string"/>
+					<xs:element name="qty"
+							type="xs:int"/>
+					<xs:element name="acceptedQty"
+							type="xs:int"/>
+					<xs:element name="barcode"
+							type="xs:string"/>
+					<xs:element name="amnBox"
+							type="xs:int"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="order">
+				<xs:sequence>
+					<xs:element name="number"
+							type="xs:string"
+							minOccurs="0"/>
+					<xs:element name="recipient"
+							type="xs:string"
+							minOccurs="0"/>
+					<xs:element name="route"
+							type="xs:string"
+							minOccurs="0"/>
+					<xs:element name="qty"
+							type="xs:int"
+							minOccurs="0"/>
+					<xs:element name="acceptedQty"
+							type="xs:int"
+							minOccurs="0"/>
+					<xs:element name="orderItems"
+							type="tns:orderItem"
+							nillable="true"
+							minOccurs="0"
+							maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="orderItem">
+				<xs:sequence>
+					<xs:element name="acceptedQty"
+							type="xs:int"
+							minOccurs="0"/>
+					<xs:element name="barcode"
+							type="xs:string"
+							minOccurs="0"/>
+					<xs:element name="itemId"
+							type="xs:int"
+							minOccurs="0"/>
+					<xs:element name="itemName"
+							type="xs:string"
+							minOccurs="0"/>
+					<xs:element name="line"
+							type="xs:int"
+							minOccurs="0"/>
+					<xs:element name="qty"
+							type="xs:int"
+							minOccurs="0"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="stock">
+				<xs:sequence>
+					<xs:element name="stockId"
+							type="xs:string"/>
+					<xs:element name="stockName"
+							type="xs:string"/>
+					<xs:element name="qty"
+							type="xs:int"/>
+					<xs:element name="acceptedQty"
+							type="xs:int"/>
+					<xs:element name="number"
+							type="xs:string"
+							nillable="true"/>
+					<xs:element name="stockItems"
+							type="tns:stockItem"
+							nillable="true"
+							minOccurs="0"
+							maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="stockItem">
+				<xs:sequence>
+					<xs:element name="itemId"
+							type="xs:string"/>
+					<xs:element name="itemName"
+							type="xs:string"/>
+					<xs:element name="qty"
+							type="xs:int"/>
+					<xs:element name="acceptedQty"
+							type="xs:int"/>
+					<xs:element name="barcode"
+							type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="login">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="user"
+								type="xs:string"/>
+						<xs:element name="password"
+								type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="loginResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return"
+								type="xs:boolean"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getOrder">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="arg0"
+								type="xs:string"
+								nillable="true"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getOrderResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return"
+								type="tns:order"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="setOrder">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="arg0"
+								type="tns:order"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="setOrderResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return"
+								type="xs:int"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getMovement">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="number"
+								type="xs:string"/>
+						<xs:element name="user"
+								type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getMovementResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return"
+								type="tns:movement"
+								nillable="true"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="setMovement">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="user"
+								type="xs:string"/>
+						<xs:element name="movement"
+								type="tns:movement"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="setMovementResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return"
+								type="xs:int"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getStock">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="user"
+								type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getStockResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return"
+								type="tns:stock"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="setStock">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="stock"
+								type="tns:stock"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="setStockResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return"
+								type="xs:int"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+	</types>
+	<message name="loginRequestMessage">
+		<part name="parameters"
+				element="tns:login"/>
+	</message>
+	<message name="loginResponseMessage">
+		<part name="parameters"
+				element="tns:loginResponse"/>
+	</message>
+	<message name="getOrderRequestMessage">
+		<part name="parameters"
+				element="tns:getOrder"/>
+	</message>
+	<message name="getOrderResponseMessage">
+		<part name="parameters"
+				element="tns:getOrderResponse"/>
+	</message>
+	<message name="setOrderRequestMessage">
+		<part name="parameters"
+				element="tns:setOrder"/>
+	</message>
+	<message name="setOrderResponseMessage">
+		<part name="parameters"
+				element="tns:setOrderResponse"/>
+	</message>
+	<message name="getMovementRequestMessage">
+		<part name="parameters"
+				element="tns:getMovement"/>
+	</message>
+	<message name="getMovementResponseMessage">
+		<part name="parameters"
+				element="tns:getMovementResponse"/>
+	</message>
+	<message name="setMovementRequestMessage">
+		<part name="parameters"
+				element="tns:setMovement"/>
+	</message>
+	<message name="setMovementResponseMessage">
+		<part name="parameters"
+				element="tns:setMovementResponse"/>
+	</message>
+	<message name="getStockRequestMessage">
+		<part name="parameters"
+				element="tns:getStock"/>
+	</message>
+	<message name="getStockResponseMessage">
+		<part name="parameters"
+				element="tns:getStockResponse"/>
+	</message>
+	<message name="setStockRequestMessage">
+		<part name="parameters"
+				element="tns:setStock"/>
+	</message>
+	<message name="setStockResponseMessage">
+		<part name="parameters"
+				element="tns:setStockResponse"/>
+	</message>
+	<portType name="WSRTSDServerPortType">
+		<operation name="login">
+			<input message="tns:loginRequestMessage"/>
+			<output message="tns:loginResponseMessage"/>
+		</operation>
+		<operation name="getOrder">
+			<input message="tns:getOrderRequestMessage"/>
+			<output message="tns:getOrderResponseMessage"/>
+		</operation>
+		<operation name="setOrder">
+			<input message="tns:setOrderRequestMessage"/>
+			<output message="tns:setOrderResponseMessage"/>
+		</operation>
+		<operation name="getMovement">
+			<input message="tns:getMovementRequestMessage"/>
+			<output message="tns:getMovementResponseMessage"/>
+		</operation>
+		<operation name="setMovement">
+			<input message="tns:setMovementRequestMessage"/>
+			<output message="tns:setMovementResponseMessage"/>
+		</operation>
+		<operation name="getStock">
+			<input message="tns:getStockRequestMessage"/>
+			<output message="tns:getStockResponseMessage"/>
+		</operation>
+		<operation name="setStock">
+			<input message="tns:setStockRequestMessage"/>
+			<output message="tns:setStockResponseMessage"/>
+		</operation>
+	</portType>
+	<binding name="WSRTSDServerSoapBinding"
+			type="tns:WSRTSDServerPortType">
+		<soapbind:binding style="document"
+				transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="login">
+			<soapbind:operation style="document"
+					soapAction="http://server.ws.gdi.ru/#WSRTSDServer:login"/>
+			<input>
+				<soapbind:body use="literal"/>
+			</input>
+			<output>
+				<soapbind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="getOrder">
+			<soapbind:operation style="document"
+					soapAction="http://server.ws.gdi.ru/#WSRTSDServer:getOrder"/>
+			<input>
+				<soapbind:body use="literal"/>
+			</input>
+			<output>
+				<soapbind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="setOrder">
+			<soapbind:operation style="document"
+					soapAction="http://server.ws.gdi.ru/#WSRTSDServer:setOrder"/>
+			<input>
+				<soapbind:body use="literal"/>
+			</input>
+			<output>
+				<soapbind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="getMovement">
+			<soapbind:operation style="document"
+					soapAction="http://server.ws.gdi.ru/#WSRTSDServer:getMovement"/>
+			<input>
+				<soapbind:body use="literal"/>
+			</input>
+			<output>
+				<soapbind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="setMovement">
+			<soapbind:operation style="document"
+					soapAction="http://server.ws.gdi.ru/#WSRTSDServer:setMovement"/>
+			<input>
+				<soapbind:body use="literal"/>
+			</input>
+			<output>
+				<soapbind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="getStock">
+			<soapbind:operation style="document"
+					soapAction="http://server.ws.gdi.ru/#WSRTSDServer:getStock"/>
+			<input>
+				<soapbind:body use="literal"/>
+			</input>
+			<output>
+				<soapbind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="setStock">
+			<soapbind:operation style="document"
+					soapAction="http://server.ws.gdi.ru/#WSRTSDServer:setStock"/>
+			<input>
+				<soapbind:body use="literal"/>
+			</input>
+			<output>
+				<soapbind:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<binding name="WSRTSDServerSoap12Binding"
+			type="tns:WSRTSDServerPortType">
+		<soap12bind:binding style="document"
+				transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="login">
+			<soap12bind:operation style="document"
+					soapAction="http://server.ws.gdi.ru/#WSRTSDServer:login"/>
+			<input>
+				<soap12bind:body use="literal"/>
+			</input>
+			<output>
+				<soap12bind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="getOrder">
+			<soap12bind:operation style="document"
+					soapAction="http://server.ws.gdi.ru/#WSRTSDServer:getOrder"/>
+			<input>
+				<soap12bind:body use="literal"/>
+			</input>
+			<output>
+				<soap12bind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="setOrder">
+			<soap12bind:operation style="document"
+					soapAction="http://server.ws.gdi.ru/#WSRTSDServer:setOrder"/>
+			<input>
+				<soap12bind:body use="literal"/>
+			</input>
+			<output>
+				<soap12bind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="getMovement">
+			<soap12bind:operation style="document"
+					soapAction="http://server.ws.gdi.ru/#WSRTSDServer:getMovement"/>
+			<input>
+				<soap12bind:body use="literal"/>
+			</input>
+			<output>
+				<soap12bind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="setMovement">
+			<soap12bind:operation style="document"
+					soapAction="http://server.ws.gdi.ru/#WSRTSDServer:setMovement"/>
+			<input>
+				<soap12bind:body use="literal"/>
+			</input>
+			<output>
+				<soap12bind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="getStock">
+			<soap12bind:operation style="document"
+					soapAction="http://server.ws.gdi.ru/#WSRTSDServer:getStock"/>
+			<input>
+				<soap12bind:body use="literal"/>
+			</input>
+			<output>
+				<soap12bind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="setStock">
+			<soap12bind:operation style="document"
+					soapAction="http://server.ws.gdi.ru/#WSRTSDServer:setStock"/>
+			<input>
+				<soap12bind:body use="literal"/>
+			</input>
+			<output>
+				<soap12bind:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="WSRTSDServer">
+		<port name="WSRTSDServerSoap"
+				binding="tns:WSRTSDServerSoapBinding">
+			<documentation> 
+				<wsi:Claim xmlns:wsi="http://ws-i.org/schemas/conformanceClaim/"
+						conformsTo="http://ws-i.org/profiles/basic/1.1"/>
+			</documentation>
+			<soapbind:address location="http://192.168.80.2/UPP_OktionTest/ws/WSRTSDServer"/>
+		</port>
+		<port name="WSRTSDServerSoap12"
+				binding="tns:WSRTSDServerSoap12Binding">
+			<soap12bind:address location="http://192.168.80.2/UPP_OktionTest/ws/WSRTSDServer"/>
+		</port>
+	</service>
+</definitions>
