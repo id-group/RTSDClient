@@ -33,3 +33,4 @@ gen
 .idea/inspectionProfiles/
 target/generated-sources/annotations/
 target/generated-test-sources/
+/target/
